@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Second Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://promoalltest-blog.cdnpromo.com/wp-content/uploads/2021/10/Birthday-Balloons-GIF.gif') no-repeat center center/cover;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .link-container, .game-container {
+            margin-top: 20px;
+        }
+
+        a, button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff6347;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:hover, button:hover {
+            background-color: #e5533d;
+        }
+
+        canvas {
+            border: 2px solid #ff6347;
+            display: none; /* Hide the canvas initially */
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Second Page!</h1>
+    <div class="link-container">
+        <a href="index.html">Back to Home</a>
+    </div>
+    <div class="game-container">
+        <button id="startGameButton" onclick="startGame()">Start Game</button>
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+    </div>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let balloons = [];
+        const balloonCount = 10;
+        let gameStarted = false;
+
+        function createBalloons() {
+            balloons = [];
+            for (let i = 0; i < balloonCount; i++) {
+                balloons.push({
+                    x: Math.random() * canvas.width,
+                    y: canvas.height + Math.random() * 100,
+                    speed: Math.random() * 2 + 1,
+                    popped: false
+                });
+            }
+        }
+
+        function drawBalloon(balloon) {
+            ctx.beginPath();
+            ctx.arc(balloon.x, balloon.y, 20, 0, Math.PI * 2, false);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function updateBalloons() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            balloons.forEach(balloon => {
+                if (!balloon.popped) {
+                    balloon.y -= balloon.speed;
+                    drawBalloon(balloon);
+                }
+            });
+        }
+
+        function checkBalloonPop(event) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const clickY = event.clientY - rect.top;
+
+            balloons.forEach(balloon => {
+                const dist = Math.sqrt((balloon.x - clickX) ** 2 + (balloon.y - clickY) ** 2);
+                if (dist < 20) {
+                    balloon.popped = true;
+                }
+            });
+        }
+
+        function gameLoop() {
+            if (!gameStarted) return;
+            updateBalloons();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function startGame() {
+            gameStarted = true;
+            canvas.style.display = "block"; // Show the canvas
+            createBalloons();
+            canvas.addEventListener('click', checkBalloonPop);
+            gameLoop();
+        }
+    </script>
+</body>
+</html>

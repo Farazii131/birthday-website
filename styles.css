@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('https://www.lovethispic.com/uploaded_images/455700-Happy-Birthday-Gif-With-Clown-And-Bouncing-Gift.gif') no-repeat center center/cover;
+    overflow: hidden;
+    flex-direction: column; /* Allows stacking the countdown and content vertically */
+}
+
+#countdown {
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#popup {
+    font-size: 3em;
+    color: red;
+    text-shadow: 2px 2px 4px #000;
+    animation: pop 1s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff6347;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #e5533d;
+}
